@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import services.Controllers.MenuController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ServiceController {
@@ -45,6 +46,28 @@ public class ServiceController {
         return MenuController.getInstance().getMenu();
     }
 
+
+    // http://localhost:8080/categories
+    @RequestMapping("/categories")
+    public List<Category> getCategories() {
+        return MenuController.getInstance().getMenu().getCategories();
+    }
+
+    // http://localhost:8080/categoryList
+    @RequestMapping("/categoryList")
+    public List<String> categoryList() {
+        return MenuController.getInstance().getCategoryName();
+    }
+
+
+
+    // http://localhost:8080/category?id={name}
+    @RequestMapping("/category")
+    public Category getCategory(@RequestParam String id) {
+        return MenuController.getInstance().getCategoryByID(id);
+    }
+
+    //////////////////////////////
 
     public Table[] getTables() {
         return null;
