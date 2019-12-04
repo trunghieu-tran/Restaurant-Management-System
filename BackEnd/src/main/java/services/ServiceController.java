@@ -22,7 +22,7 @@ public class ServiceController {
     // http://localhost:8080/employees
     @RequestMapping("/employees")
     public ArrayList<String> getEmployees() {
-        return EmployeeController.getEmployees();
+        return EmployeeController.getInstance().getEmployees();
     }
 
     // http://localhost:8080/login?id={id}&pwd={password}
