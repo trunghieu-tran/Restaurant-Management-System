@@ -9,16 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MenuController {
     private Menu menu;
 
+    private static MenuController instance;
+
+    public static MenuController getInstance() {
+        if (instance == null) {
+            instance = new MenuController();
+        }
+        return instance;
+    }
+
+
     @Autowired
     public MenuController() {
-
+        menu = DatabaseController.getInstance().getMenu();
     }
 
-    public Category[] openMenu() {
-        return menu.getCategories();
-    }
-
-    public Item[] getItemsInCategory(int categoryID) {
-        return menu.getCategories()[categoryID].getItems();
+    public Menu getMenu() {
+        return menu;
     }
 }

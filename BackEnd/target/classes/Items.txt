@@ -1,0 +1,7 @@
+Pizza,10
+Hamburger,3
+KFC,5
+Tacco,2
+Rice,7
+Noodle,10
+Soup,5

@@ -1,13 +1,11 @@
 package services;
 
-import model.Entity.Category;
-import model.Entity.Item;
-import model.Entity.Order;
-import model.Entity.Table;
+import model.Entity.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import services.Controllers.EmployeeController;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import services.Controllers.MenuController;
 
 import java.util.ArrayList;
 
@@ -33,6 +31,20 @@ public class ServiceController {
         }
         return "Error: Invalid credentials";
     }
+
+    // http://localhost:8080/employees
+    @RequestMapping("/items")
+    public ArrayList<Item> getItems() {
+        return null;
+    }
+
+
+    // http://localhost:8080/menu
+    @RequestMapping("/menu")
+    public Menu getMeunu() {
+        return MenuController.getInstance().getMenu();
+    }
+
 
     public Table[] getTables() {
         return null;

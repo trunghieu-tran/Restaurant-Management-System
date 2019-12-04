@@ -1,13 +1,19 @@
 package model.Entity;
 
-public class Menu {
-    private Category[] categories;
+import java.util.List;
 
-    public Category[] getCategories() {
+public class Menu {
+    private List<Category> categories;
+
+    public Menu(List<Category> listCat) {
+        this.categories = listCat;
+    }
+
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(Category[] categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 

@@ -1,0 +1,7 @@
+FastFood,Pizza
+FastFood,Pizza
+FastFood,KFC
+Mexico,Tacco
+Asian,Rice
+Asian,Noodle
+Asian,Soup
