@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import services.Controllers.EmployeeController;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import services.Controllers.FloorController;
 import services.Controllers.MenuController;
 
 import java.util.ArrayList;
@@ -33,8 +34,8 @@ public class ServiceController {
         return "Error: Invalid credentials";
     }
 
-    // http://localhost:8080/employees
-    @RequestMapping("/items")
+    // http://localhost:8080/allitems
+    @RequestMapping("/allitems")
     public ArrayList<Item> getItems() {
         return null;
     }
@@ -47,8 +48,8 @@ public class ServiceController {
     }
 
 
-    // http://localhost:8080/categories
-    @RequestMapping("/categories")
+    // http://localhost:8080/allcategories
+    @RequestMapping("/allcategories")
     public List<Category> getCategories() {
         return MenuController.getInstance().getMenu().getCategories();
     }
@@ -65,6 +66,12 @@ public class ServiceController {
     @RequestMapping("/category")
     public Category getCategory(@RequestParam String id) {
         return MenuController.getInstance().getCategoryByID(id);
+    }
+
+    // http://localhost:8080/floorStatus
+    @RequestMapping("/floorStatus")
+    public List<Table> getFloorStatus() {
+        return FloorController.getInstance().getTables();
     }
 
     //////////////////////////////

@@ -1,11 +1,14 @@
 package services.Controllers;
 
 import model.Entity.*;
+import sun.tools.jconsole.Tab;
 import utils.Config;
 import utils.FileReader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class DatabaseController {
@@ -13,12 +16,17 @@ public class DatabaseController {
     private static DatabaseController instance = null;
     private List<Employee> employees;
     private Menu menu;
+    private Map<Order, Table> mapOrderToTable;
+    private List<Table> tables;
 
     public DatabaseController() {
         // initialize data here
         employees = initEmployeeData();
         menu = initMenu();
+        tables = initTableData();
+        mapOrderToTable = new HashMap<>();
     }
+
 
     public static DatabaseController getInstance() {
         if (instance == null) {
@@ -29,6 +37,19 @@ public class DatabaseController {
 
     public List<Employee> getEmployees() {
         return employees;
+    }
+
+    private List<Table> initTableData() {
+        List<Table> tables = new ArrayList<>();
+        String data = FileReader.readStringFromFile(Config.UsingMacOS ? Config.TableDataFileMacOS : Config.TableDataFileWindows);
+
+        String[] lines = data.split("\n");
+        for (String line : lines) {
+            Table newTable = new Table(Integer.parseInt(line));
+            tables.add(newTable);
+        }
+
+        return tables;
     }
 
     private List<Employee> initEmployeeData() {
@@ -47,6 +68,14 @@ public class DatabaseController {
 
     public Menu getMenu() {
         return menu;
+    }
+
+    public Map<Order, Table> getMapOrderToTable() {
+        return mapOrderToTable;
+    }
+
+    public List<Table> getTables() {
+        return tables;
     }
 
     private Menu initMenu() {

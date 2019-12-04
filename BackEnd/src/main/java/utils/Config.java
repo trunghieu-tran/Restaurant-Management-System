@@ -7,8 +7,10 @@ public class Config {
     public static String EmployeeDataFileWindows = "\".\\\\src\\\\main\\\\resources\\\\Employees.txt\"";
     public static String ItemDataFileWindows = "";
     public static String CategoryDataFileWindows = "";
+    public static String TableDataFileWindows = "";
 
     public static String EmployeeDataFileMacOS = "./src/main/resources/Employees.txt";
     public static String ItemDataFileMacOS = "./src/main/resources/Items.txt";
     public static String CategoryDataFileMacOS = "./src/main/resources/Categories.txt";
+    public static String TableDataFileMacOS = "./src/main/resources/Tables.txt";
 }
