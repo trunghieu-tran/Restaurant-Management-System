@@ -1,6 +1,6 @@
 package model.Entity;
 
-public abstract class Employee {
+public class Employee {
     private String id;
     private String pwd;
 

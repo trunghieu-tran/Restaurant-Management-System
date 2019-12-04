@@ -19,4 +19,9 @@ public class Item {
     public void setPrice(float price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return description + ":  $" + String.valueOf(price);
+    }
 }
