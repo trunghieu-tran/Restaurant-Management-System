@@ -6,10 +6,8 @@ import java.util.List;
 
 public class FloorController {
     private static FloorController instance;
-    private List<Table> tables;
 
     public FloorController() {
-        tables = DatabaseController.getInstance().getTables();
     }
     public static FloorController getInstance() {
         if (instance == null) {
@@ -19,10 +17,10 @@ public class FloorController {
     }
 
     public List<Table> getTables() {
-        return tables;
+        return DatabaseController.getInstance().getTables();
     }
 
     public Table getTableInfo(int tableId) {
-        return null;
+        return DatabaseController.getInstance().getTableData(tableId);
     }
 }

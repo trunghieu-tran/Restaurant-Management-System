@@ -1,5 +1,6 @@
 package services.Controllers;
 
+import com.sun.tools.corba.se.idl.constExpr.Or;
 import model.Entity.*;
 import sun.tools.jconsole.Tab;
 import utils.Config;
@@ -17,7 +18,10 @@ public class DatabaseController {
     private List<Employee> employees;
     private Menu menu;
     private Map<Order, Table> mapOrderToTable;
+    private Map<Table, Order> mapTableToOrder;
     private List<Table> tables;
+    private List<Order> orders;
+    private List<Order> orderInQueue;
 
     public DatabaseController() {
         // initialize data here
@@ -25,6 +29,9 @@ public class DatabaseController {
         menu = initMenu();
         tables = initTableData();
         mapOrderToTable = new HashMap<>();
+        mapTableToOrder = new HashMap<>();
+        orders = new ArrayList<>();
+        orderInQueue = new ArrayList<>();
     }
 
 
@@ -37,6 +44,10 @@ public class DatabaseController {
 
     public List<Employee> getEmployees() {
         return employees;
+    }
+
+    public Map<Table, Order> getMapTableToOrder() {
+        return mapTableToOrder;
     }
 
     private List<Table> initTableData() {
@@ -130,26 +141,70 @@ public class DatabaseController {
         return null;
     }
 
+    public List<String> getCategoryName() {
+        List<String> res = new ArrayList<>();
+        for (Category c : menu.getCategories()) {
+            res.add(c.getName());
+        }
+        return res;
+    }
+
+    public Category getCategoryByID(String id) {
+        for (Category c : menu.getCategories()) {
+            if (c.getName().equals(id)) return c;
+        }
+        return null;
+    }
+
     public Table getTableData(int tableId) {
+        for (Table tb : tables)
+            if (tb.getTableNumber() == tableId)
+                return tb;
         return null;
     }
 
     public Order getOrderForTable(int tableId) {
+        Table tb = getTableData(tableId);
+        if (!mapTableToOrder.containsKey(tb)) {
+            Order newOrder = createNewOrder();
+            mapTableToOrder.put(tb, newOrder);
+            mapOrderToTable.put(newOrder, tb);
+        }
+        return mapTableToOrder.get(tb);
+    }
+
+    public Order getOrderByID(int orderID) {
+        for (Order o : orders)
+            if (o.getOrderID() == orderID) return o;
         return null;
     }
-
-    public Order createNewOrder(int tableId) {
-        return null;
-    }
-
-    public Item[] getItemsInCategory(int categoryId) {
-        return null;
-    }
-
-    public boolean updateOrder(Order order) {
-        return false;
+    public Order createNewOrder() {
+        Order newOrder = new Order(orders.size());
+        orders.add(newOrder);
+        return newOrder;
     }
 
 
+    public boolean addItemToTab(int orderId, String item) {
+        Order o = getOrderByID(orderId);
+        Item it = menu.getItemByID(item);
+        if (o == null || it == null) return false;
+        o.addItem(it);
+        return true;
+    }
 
+    public boolean submitOrder(int orderId) {
+        Order o = getOrderByID(orderId);
+        if (o == null) return false;
+        orderInQueue.add(o);
+        return true;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public List<Order> getOrderInQueue() {
+        return orderInQueue;
+    }
 }

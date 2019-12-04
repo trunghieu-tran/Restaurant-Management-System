@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import services.Controllers.FloorController;
 import services.Controllers.MenuController;
+import services.Controllers.OrderController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ServiceController {
@@ -74,34 +76,45 @@ public class ServiceController {
         return FloorController.getInstance().getTables();
     }
 
-    //////////////////////////////
-
-    public Table[] getTables() {
-        return null;
+    // http://localhost:8080/table?id={id}
+    @RequestMapping("/table")
+    public Table selectTable(@RequestParam int id) {
+        return FloorController.getInstance().getTableInfo(id);
     }
 
-    public Table selectTable(int tableID) {
-        return null;
+    // http://localhost:8080/editTableOrder?id={id}
+    @RequestMapping("/tableOrder")
+    public Order editTableOrder(@RequestParam int id) {
+        return OrderController.getInstance().getOrderForTable(id);
     }
 
-    public Order editTab(int tableID) {
-        return null;
+    // http://localhost:8080/addItemToOrder?orderID={order}&item={item}
+    @RequestMapping("/addItemToOrder")
+    public boolean addItemToOrder(@RequestParam int orderID, String item) {
+        return OrderController.getInstance().addItemToTab(orderID, item);
     }
 
-    public Category[] openMenu() {
-        return null;
+    // http://localhost:8080/submitOrder?orderID={id}
+    @RequestMapping("/submitOrder")
+    public boolean submitOrder(@RequestParam int orderID) {
+        return OrderController.getInstance().submitOrder(orderID);
     }
 
-    public Item[] selectCategory(int categoryID) {
-        return null;
+    // http://localhost:8080/orderPayment?orderID={id}
+    @RequestMapping("/orderPayment")
+    public float orderPayment(@RequestParam int orderID) {
+        return OrderController.getInstance().getOrderPayment(orderID);
     }
 
-    public boolean addItemToTab(int orderID, int itemID) {
-        return false;
+    // http://localhost:8080/orderInQueue
+    @RequestMapping("/orderInQueue")
+    public List<Order> getOrderInqueue() {
+        return OrderController.getInstance().getOrderInQueue();
     }
 
-    public boolean submitOrder(int orderID) {
-        return false;
+    @RequestMapping("/mapOrderToTable")
+    public Map<Integer, Integer> mapOrderToTable() {
+        return OrderController.getInstance().getMapOrderToTable();
     }
 
     public void orderQueueUpdated() {

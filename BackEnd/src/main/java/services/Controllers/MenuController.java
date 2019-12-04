@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuController {
-    private Menu menu;
 
     private static MenuController instance;
 
@@ -24,25 +23,17 @@ public class MenuController {
 
     @Autowired
     public MenuController() {
-        menu = DatabaseController.getInstance().getMenu();
     }
 
     public Menu getMenu() {
-        return menu;
+        return DatabaseController.getInstance().getMenu();
     }
 
     public List<String> getCategoryName() {
-        List<String> res = new ArrayList<>();
-        for (Category c : menu.getCategories()) {
-            res.add(c.getName());
-        }
-        return res;
+        return DatabaseController.getInstance().getCategoryName();
     }
 
     public Category getCategoryByID(String id) {
-        for (Category c : menu.getCategories()) {
-            if (c.getName().equals(id)) return c;
-        }
-        return null;
+        return DatabaseController.getInstance().getCategoryByID(id);
     }
 }

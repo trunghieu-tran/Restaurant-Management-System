@@ -17,6 +17,14 @@ public class Menu {
         this.categories = categories;
     }
 
+    public Item getItemByID(String item) {
+        for (Category cat : categories) {
+            for (Item it : cat.getItems())
+                if (it.getDescription().equals(item))
+                    return it;
+        }
+        return null;
+    }
     @Override
     public String toString() {
         String result = "";
