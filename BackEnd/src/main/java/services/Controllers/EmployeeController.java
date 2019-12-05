@@ -1,14 +1,10 @@
 package services.Controllers;
 
 import model.Entity.Employee;
-import model.Entity.Waiter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class EmployeeController {
     private static List<Employee> employees;
@@ -35,10 +31,9 @@ public class EmployeeController {
     }
 
     public static boolean validateUser(String id, String pwd) {
-        for (Employee cur : employees) {
-            if (cur.getId().equals(id) && cur.getPwd().equals(pwd)) {
-                return true;
-            }
+        Employee result = DatabaseController.getInstance().getEmployeeInfo(id);
+        if (result != null && result.getPwd().equals(pwd)) {
+            return true;
         }
         return false;
     }

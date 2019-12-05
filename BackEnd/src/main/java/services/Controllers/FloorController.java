@@ -17,7 +17,7 @@ public class FloorController {
     }
 
     public List<Table> getTables() {
-        return DatabaseController.getInstance().getTables();
+        return DatabaseController.getInstance().getTableList();
     }
 
     public Table getTableInfo(int tableId) {

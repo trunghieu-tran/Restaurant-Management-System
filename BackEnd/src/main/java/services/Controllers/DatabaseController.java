@@ -1,8 +1,6 @@
 package services.Controllers;
 
-import com.sun.tools.corba.se.idl.constExpr.Or;
 import model.Entity.*;
-import sun.tools.jconsole.Tab;
 import utils.Config;
 import utils.FileReader;
 
@@ -22,6 +20,7 @@ public class DatabaseController {
     private List<Table> tables;
     private List<Order> orders;
     private List<Order> orderInQueue;
+    private static String newLine = "\r\n";
 
     public DatabaseController() {
         // initialize data here
@@ -54,7 +53,7 @@ public class DatabaseController {
         List<Table> tables = new ArrayList<>();
         String data = FileReader.readStringFromFile(Config.UsingMacOS ? Config.TableDataFileMacOS : Config.TableDataFileWindows);
 
-        String[] lines = data.split("\n");
+        String[] lines = data.split(newLine);
         for (String line : lines) {
             Table newTable = new Table(Integer.parseInt(line));
             tables.add(newTable);
@@ -68,7 +67,7 @@ public class DatabaseController {
 
         String data = FileReader.readStringFromFile(Config.UsingMacOS ? Config.EmployeeDataFileMacOS : Config.EmployeeDataFileWindows);
 
-        String[] lines = data.split("\n");
+        String[] lines = data.split(newLine);
         for (String line : lines) {
             String[] parts = line.split(" ");
             employees.add(new Employee(parts[0], parts[1]));
@@ -85,7 +84,7 @@ public class DatabaseController {
         return mapOrderToTable;
     }
 
-    public List<Table> getTables() {
+    public List<Table> getTableList() {
         return tables;
     }
 
@@ -94,7 +93,7 @@ public class DatabaseController {
         List<Item> allItems = new ArrayList<>();
 
         String itemData = FileReader.readStringFromFile(Config.UsingMacOS ? Config.ItemDataFileMacOS : Config.ItemDataFileWindows);
-        String[] lines = itemData.split("\n");
+        String[] lines = itemData.split(newLine);
         for (String line : lines) {
             String[] parts = line.split(",");
             Item newItem = new Item(parts[0], Float.parseFloat(parts[1]));
@@ -102,7 +101,7 @@ public class DatabaseController {
         }
 
         String categoryData = FileReader.readStringFromFile(Config.UsingMacOS ? Config.CategoryDataFileMacOS : Config.CategoryDataFileWindows);
-        lines = categoryData.split("\n");
+        lines = categoryData.split(newLine);
         for (String line : lines) {
             String[] parts = line.split(",");
 
@@ -132,12 +131,12 @@ public class DatabaseController {
         return new Menu(categories);
     }
 
-
     public Employee getEmployeeInfo(String id) {
-        return null;
-    }
-    
-    public Table[] getTableList() {
+        for (Employee cur : employees) {
+            if (cur.getId().equals(id)) {
+                return cur;
+            }
+        }
         return null;
     }
 
