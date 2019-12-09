@@ -1,21 +1,22 @@
 package services;
 
+
 import model.Entity.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import services.Controllers.EmployeeController;
+import services.Controllers.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
-import services.Controllers.FloorController;
-import services.Controllers.MenuController;
-import services.Controllers.OrderController;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 
 @RestController
 public class ServiceController {
@@ -112,8 +113,12 @@ public class ServiceController {
 
     // http://localhost:8080/submitOrder?orderID={id}
     @RequestMapping("/submitOrder")
-    public boolean submitOrder(@RequestParam int orderID) {
-        return OrderController.getInstance().submitOrder(orderID);
+    public boolean submitOrder(@RequestParam int orderID) throws IOException {
+        if (OrderController.getInstance().submitOrder(orderID)) {
+            orderQueueUpdated();
+            return true;
+        }
+        return false;
     }
 
     // http://localhost:8080/orderPayment?orderID={id}
@@ -124,16 +129,26 @@ public class ServiceController {
 
     // http://localhost:8080/orderInQueue
     @RequestMapping("/orderInQueue")
-    public List<Order> getOrderInqueue() {
+    public List<Order> getOrderInQueue() {
         return OrderController.getInstance().getOrderInQueue();
     }
 
+    // http://localhost:8080/mapOrderToTable
     @RequestMapping("/mapOrderToTable")
     public Map<Integer, Integer> mapOrderToTable() {
         return OrderController.getInstance().getMapOrderToTable();
     }
 
-    public void orderQueueUpdated() {
+    // http://localhost:8080/updated
+    @RequestMapping("/updated")
+    public void orderQueueUpdated() throws IOException {
+        OrderController.getInstance().updateChef();
+    }
 
+    // http://localhost:8080/chefSide?ipAddr={ip address}
+    @RequestMapping("/chefSide")
+    public String getChefData(@RequestParam String ipAddr) throws IOException {
+        InetAddress rcvAddr = InetAddress.getByName(ipAddr);
+        return ChefReceiver.getMessage(rcvAddr);
     }
 }
