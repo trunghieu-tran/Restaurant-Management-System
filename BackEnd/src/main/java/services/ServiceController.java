@@ -1,7 +1,11 @@
 package services;
 
 import model.Entity.*;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import services.Controllers.EmployeeController;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +19,18 @@ import java.util.Map;
 
 @RestController
 public class ServiceController {
+
+    // to fix "No 'Access-Control-Allow-Origin' header is present on the requested resource." error
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*");
+            }
+        };
+    }
+
     //    http://localhost:8080,
     @RequestMapping("/")
     public String index() {
