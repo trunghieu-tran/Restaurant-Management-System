@@ -98,7 +98,7 @@ public class ServiceController {
         return FloorController.getInstance().getTableInfo(id);
     }
 
-    // http://localhost:8080/editTableOrder?id={id}
+    // http://localhost:8080/tableOrder?id={id}
     @RequestMapping("/tableOrder")
     public Order editTableOrder(@RequestParam int id) {
         return OrderController.getInstance().getOrderForTable(id);
