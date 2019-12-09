@@ -177,12 +177,12 @@ public class DatabaseController {
             if (o.getOrderID() == orderID) return o;
         return null;
     }
+
     public Order createNewOrder() {
         Order newOrder = new Order(orders.size());
         orders.add(newOrder);
         return newOrder;
     }
-
 
     public boolean addItemToTab(int orderId, String item) {
         Order o = getOrderByID(orderId);

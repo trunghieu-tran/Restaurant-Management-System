@@ -4,9 +4,12 @@ package services.Controllers;
 import model.Entity.Order;
 import model.Entity.Table;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class OrderController {
     private static OrderController instance;
@@ -51,7 +54,13 @@ public class OrderController {
         Order o = DatabaseController.getInstance().getOrderByID(orderID);
         return o.getPayment();
     }
-    public void updateChef() {
+
+    public void updateChef() throws IOException {
         // TODO: socket or TCP to send message to other computer
+        Scanner keyboard = new Scanner(System.in);
+        System.out.print("Enter the IP address of the other end: ");
+        String input = keyboard.nextLine();
+        InetAddress rcvAddr = InetAddress.getByName(input);
+        SocketSender.sendMessage(rcvAddr, "Order Queue Updated");
     }
 }
