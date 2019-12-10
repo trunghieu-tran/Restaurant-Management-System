@@ -39,6 +39,7 @@ $(document).ready(function() {
       $.each(result.orderedItems, function(i, field) {
         $('#bodyEditOrder').append("<p>"+field.description + " $" + field.price + "</p>");
       });
+      $('#bodyEditOrder').append("<input type='hidden' id='orderID' value=" + result.orderID + ">")
     });
   }
 
@@ -81,5 +82,83 @@ $(document).ready(function() {
       window.location.replace("edit-order.html?tableID=" + editTableID);
     }
   });
+
+  // user selects add item, redirect to add-item page
+  $('#buttonAddItem').click(function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    var tableID = urlParams.get('tableID');
+    var orderID = $('#orderID').val();
+    window.location.replace("add-item.html?tableID=" + tableID +"&orderID=" + orderID);
+  });
+
+  // load food items
+  if($('body').attr('id') == 'bodyAddItem') {
+    console.log('Loading item list...');
+    $.getJSON(URL+"allcategories", function(result) {
+      console.log(result);
+      $.each(result, function (key, category) {
+        $('#itemList').append("<div class=\"panel-group\">\n" +
+            "      <div class=\"panel panel-default\">\n" +
+            "        <div class=\"panel-heading\">\n" +
+            "          <h4 class=\"panel-title\">\n" +
+            "            <a data-toggle=\"collapse\" href=\"#"+category['name']+"\">"+category['name']+"</a>\n" +
+            "          </h4>\n" +
+            "        </div>" +
+            "        <div id=\""+category['name']+"\" class=\"panel-collapse collapse\">\n" +
+            "          <ul class=\"list-group\">");
+        $.each(category['items'], function (id, item) {
+          $("#" + category['name'] + " ul").append('<button type="button" class="btn btn-primary food-item" value="'
+              + item['description'] + '">'
+              + item['description'] + ', $' + item['price'] + '</button>');
+        })
+      })
+    });
+  }
+
+  // add food item to order
+  $(document).on('click', '.food-item', function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var tableID = urlParams.get('tableID');
+    var urlParams = new URLSearchParams(window.location.search);
+    var orderID = urlParams.get('orderID');
+    $.ajax({
+      type: "GET",
+      url: URL + "addItemToOrder?orderID=" + orderID + "&item=" + $(this).val(),
+      success: function(result) {
+        console.log('food item adding result:' + result);
+        if(result === true) {
+          window.location.replace("edit-order.html?tableID=" + tableID);
+        }
+      },
+      error: function(e) {
+        console.log("ERROR: " + e);
+      }
+    });
+  });
+
+  $('#buttonCancelAddItem').click(function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    var tableID = urlParams.get('tableID');
+    window.location.replace("edit-order.html?tableID=" + tableID);
+  });
+
+  $('#buttonSubmitOrder').click(function () {
+    var orderID = $('#orderID').val();
+    $.ajax({
+      type: "GET",
+      url: URL + "submitOrder?orderID=" + orderID,
+      success: function(result) {
+        console.log('submit order result:' + result);
+        if(result === true) {
+          window.location.replace("employee-home.html");
+        }
+      },
+      error: function(e) {
+        console.log("ERROR: " + e);
+      }
+    });
+  });
+
+
 
 });
