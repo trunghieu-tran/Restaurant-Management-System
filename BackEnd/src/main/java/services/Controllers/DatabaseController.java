@@ -194,7 +194,8 @@ public class DatabaseController {
 
     public boolean submitOrder(int orderId) {
         Order o = getOrderByID(orderId);
-        if (o == null) return false;
+        if (o == null) { return false; }
+        mapOrderToTable.get(o).setStatus(TableStatus.Occupied);
         orderInQueue.add(o);
         return true;
     }

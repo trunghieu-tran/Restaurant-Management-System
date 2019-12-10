@@ -55,7 +55,7 @@ public class Order {
     public float getPayment() {
         float total = 0;
         for (Item it : orderedItems) {
-            total = it.getPrice();
+            total += it.getPrice();
         }
         return total;
     }
