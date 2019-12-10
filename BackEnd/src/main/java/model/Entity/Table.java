@@ -1,9 +1,5 @@
 package model.Entity;
 
-enum TableStatus {
-    Available, Occupied, Dirty
-};
-
 public class Table {
     private int tableNumber;
     private TableStatus status;
