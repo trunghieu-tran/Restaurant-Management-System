@@ -2,6 +2,8 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="terminal-webapp.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <script src="jquery-3.4.1.min.js"></script>
     <script src="terminal-webapp.js"></script>
     <title>Employee Home</title>
@@ -9,10 +11,19 @@
   </head>
   <body id="bodyEmployeeHome">
 
-    <h1>Employee Home</h1>
-    <button id="buttonAddOrder" onclick="location.href='select-table.html'">Add Order</button>
-    <button id="buttonEditOrder" onclick="location.href='select-table-order.html'">Edit Order</button>
-    <button id="buttonLogout" onclick="location.href='home.html'">Logout</button>
+    <div class="container col-6 border">
+      <div class="border-bottom">
+        <h2>Employee Home</h2>
+        <label class="labels">Please click on the function you want to use.</label>
+      </div>
+
+      <div class="text-center">
+        <button id="buttonAddOrder" class="btn btn-primary" onclick="location.href='select-table.html'">Add Order</button>
+        <button id="buttonEditOrder" class="btn btn-primary" onclick="location.href='select-table-order.html'">Edit Order</button>
+        <button id="buttonLogout" class="btn btn-primary" onclick="location.href='home.html'">Logout</button>
+      </div>
+    </div>
+
 
   </body>
 </html>

@@ -2,18 +2,30 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="terminal-webapp.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <script src="jquery-3.4.1.min.js"></script>
     <script src="terminal-webapp.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <title>Edit Order</title>
     <meta name="viewport" content="width=device-width, user-scalable=no" />
   </head>
   <body id="bodyAddItem">
 
-    <h1>Add Item</h1>
-    <button id="buttonCancelAddItem">Cancel</button> <br><br>
-    <h2 id="itemList">Item List</h2>
+    <div class="container col-6 border">
+      <div class="border-bottom">
+        <h2>Add Food Item</h2>
+        <label class="labels">Please select a food item to add into the order.</label>
+      </div>
+
+      <div id="food-list" class="border-bottom p-1">
+      </div>
+
+      <div class="text-center">
+        <button id="buttonCancelAddItem" class="btn btn-secondary">Cancel</button>
+      </div>
+
+    </div>
 
   </body>
 </html>

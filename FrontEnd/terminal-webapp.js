@@ -7,12 +7,12 @@ $(document).ready(function() {
     console.log('Fetching tables...');
     $.getJSON(URL+"floorStatus", function(result) {
       $.each(result, function(i, field) {
-        $('#bodySelectTable').append("<button class=\"buttonTable\" id=\"buttonTable"+(i+1)+"\" value="+field.status+">Table "
+        $('#table-list').append("<button class=\"buttonTable\" id=\"buttonTable"+(i+1)+"\" value="+field.status+">Table "
                                       +(i+1)+"</button>\n");
         if(field.status == "Available") {
-          $('#buttonTable' + (i+1)).css('background-color', '#00a61f');
+          $('#buttonTable' + (i+1)).addClass("btn btn-success");
         } else {
-          $('#buttonTable' + (i+1)).css('background-color', '#900000');
+          $('#buttonTable' + (i+1)).addClass("btn btn-danger");
         }
       });
     });
@@ -27,19 +27,17 @@ $(document).ready(function() {
     // display information
     $.getJSON(URL+"tableOrder?id="+editTableID, function(result) {
       console.log(result.orderID);
-      $('#bodyEditOrder').append("<p>Order ID: " + result.orderID + "</p>" +
-                                 "<p>Placed on: " + result.placed + "</p>" +
-                                 "<p>Total cost: $" + result.payment + "</p>");
+      $('#orderID').val(result.orderID);
+      $('#placedTime').val(result.placed);
+      $('#total').val(result.payment+'$');
       if(result.ready) {
-        $('#bodyEditOrder').append("<p>Order ready</p>");
+        $('#orderStatus').val('Ready');
       } else {
-        $('#bodyEditOrder').append("<p>Order NOT ready<p>");
+        $('#orderStatus').val('Not ready');
       }
-      $('#bodyEditOrder').append("<h3>Items ordered: </h3>");
       $.each(result.orderedItems, function(i, field) {
-        $('#bodyEditOrder').append("<p>"+field.description + " $" + field.price + "</p>");
+        $('#item-list').append("<button class='btn btn-warning'>"+field.description + " $" + field.price + "</button>");
       });
-      $('#bodyEditOrder').append("<input type='hidden' id='orderID' value=" + result.orderID + ">")
     });
   }
 
@@ -97,7 +95,7 @@ $(document).ready(function() {
     $.getJSON(URL+"allcategories", function(result) {
       console.log(result);
       $.each(result, function (key, category) {
-        $('#itemList').append("<div class=\"panel-group\">\n" +
+        $('#food-list').append("<div class=\"panel-group\">\n" +
             "      <div class=\"panel panel-default\">\n" +
             "        <div class=\"panel-heading\">\n" +
             "          <h4 class=\"panel-title\">\n" +
@@ -105,9 +103,9 @@ $(document).ready(function() {
             "          </h4>\n" +
             "        </div>" +
             "        <div id=\""+category['name']+"\" class=\"panel-collapse collapse\">\n" +
-            "          <ul class=\"list-group\">");
+            "          <div>");
         $.each(category['items'], function (id, item) {
-          $("#" + category['name'] + " ul").append('<button type="button" class="btn btn-primary food-item" value="'
+          $("#" + category['name'] + " div").append('<button type="button" class="btn btn-warning food-item" value="'
               + item['description'] + '">'
               + item['description'] + ', $' + item['price'] + '</button>');
         })
@@ -167,9 +165,9 @@ $(document).ready(function() {
     $.getJSON(URL+"floorStatus", function(result) {
       $.each(result, function(i, field) {
         if(field.status == "Occupied") {
-          $('#bodySelectTableOrder').append("<button class=\"buttonTableOrder\" id=\"buttonTableOrder"+(i+1)+"\" value="+field.status+">Table "
+          $('#table-list').append("<button class=\"buttonTableOrder\" id=\"buttonTableOrder"+(i+1)+"\" value="+field.status+">Table "
               +(i+1)+"</button>\n");
-          $('#buttonTableOrder' + (i+1)).css('background-color', '#00a61f');
+          $('#buttonTableOrder' + (i+1)).addClass("btn btn-success");
         }
       });
     });

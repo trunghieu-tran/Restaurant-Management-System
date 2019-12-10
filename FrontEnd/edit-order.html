@@ -2,6 +2,8 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="terminal-webapp.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <script src="jquery-3.4.1.min.js"></script>
     <script src="terminal-webapp.js"></script>
     <title>Edit Order</title>
@@ -9,10 +11,51 @@
   </head>
   <body id="bodyEditOrder">
 
-    <h1>Edit Order</h1>
-    <button id="buttonCancelSelectTable" onclick="location.href='employee-home.html'">Cancel</button> <br><br>
-    <button id="buttonAddItem">Add Item</button> <br><br>
-    <button id="buttonSubmitOrder">Submit Order</button> <br><br>
-    <h2 id="orderTitle">Order for Table </h2>
+    <div class="container col-6 border"> <!-- container class will center the contains, use border class to define all borders of this element -->
+      <div class="border-bottom">
+        <h1>Edit Order</h1>
+        <label class="labels">Your order info is listed below.</label>
+      </div>
+      <br>
+      <form onsubmit="myFunction(); return false;"> <!-- if return false will prevent the form from submitting -->
+        <div class="form-row">
+          <label for="orderID" class="col-4 col-form-label">Order ID:</label>
+          <div class="form-group col">
+            <input type="text" readonly id="orderID" class="form-control-plaintext" name="orderID" placeholder="orderID">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="placedTime" class="col-4 col-form-label">Placed time:</label>
+          <div class="form-group col">
+            <input type="text" readonly id="placedTime" class="form-control-plaintext" name="placedTime" placeholder="placed time">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="total" class="col-4 col-form-label">Total cost:</label>
+          <div class="form-group col">
+            <input type="text" readonly id="total" class="form-control-plaintext" name="total" placeholder="total">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="orderStatus" class="col-4 col-form-label">Order status:</label>
+          <div class="form-group col">
+            <input type="text" readonly id="orderStatus" class="form-control-plaintext" name="orderStatus" placeholder="orderStatus">
+          </div>
+        </div>
+      </form>
+
+      <div id="item-list" class="border-top p-1">
+        <h2>Item Ordered:</h2>
+      </div>
+
+      <div class="text-center border-top">
+        <button id="buttonAddItem" class="btn btn-primary col-5">Add Item</button><br>
+        <button id="buttonSubmitOrder" class="btn btn-primary col-5">Submit Order</button><br>
+        <button id="buttonCancelSelectTable" class="btn btn-secondary col-5" onclick="location.href='employee-home.html'">Cancel</button><br>
+      </div>
+    </div>
   </body>
 </html>

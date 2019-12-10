@@ -2,6 +2,8 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="terminal-webapp.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <script src="jquery-3.4.1.min.js"></script>
     <script src="terminal-webapp.js"></script>
     <title>Login</title>
@@ -9,14 +11,31 @@
   </head>
   <body id="bodyLogin">
 
-    <h1>Login</h1>
-    <div id="loginForm">
-      <input id="username" type="text" placeholder="Username">
-      <br> <br>
-      <input id="password" type="password" placeholder="Password">
-      <br> <br>
-      <button id="buttonLogin">Login</button> <br> <br>
-      <button id="buttonCancelLogin">Cancel</button>
+    <div class="container col-6 border"> <!-- container class will center the contains, use border class to define all borders of this element -->
+      <div class="border-bottom">
+        <h1>Log In</h1>
+        <label class="labels">Please fill in your username and password to log in.</label>
+      </div>
+      <br>
+      <form onsubmit="myFunction(); return false;"> <!-- if return false will prevent the form from submitting -->
+        <div class="form-row">
+          <div class="form-group col">
+            <input type="text" id="username" class="form-control" name="username" placeholder="Username">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <input type="password" id="password" class="form-control" name="password" placeholder="Password">
+          </div>
+        </div>
+      </form>
+
+      <div class="text-center border-top">
+        <button id="buttonLogin" class="btn btn-primary col-5">Submit</button>
+        <button id="buttonCancelLogin" class="btn btn-secondary col-5"  onclick="location.href='home.html'">Cancel</button>
+      </div>
     </div>
+
   </body>
 </html>

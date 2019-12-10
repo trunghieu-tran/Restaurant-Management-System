@@ -2,6 +2,8 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="terminal-webapp.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <script src="jquery-3.4.1.min.js"></script>
     <script src="terminal-webapp.js"></script>
     <title>Select Table</title>
@@ -9,9 +11,20 @@
   </head>
   <body id="bodySelectTable">
 
-    <h1>Select Table</h1>
-    <button id="buttonCancelSelectTable" onclick="location.href='employee-home.html'">Cancel</button> <br><br>
+    <div class="container col-6 border">
+      <div class="border-bottom">
+        <h2>Select Table</h2>
+        <label class="labels">Please select an available table to continue.</label>
+      </div>
 
+      <div id="table-list" class="border-bottom p-1">
+      </div>
+
+      <div class="text-center">
+        <button id="buttonCancelSelectTable" class="btn btn-secondary" onclick="location.href='employee-home.html'">Cancel</button>
+      </div>
+
+    </div>
 
   </body>
 </html>

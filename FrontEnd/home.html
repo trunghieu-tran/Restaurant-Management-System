@@ -2,6 +2,8 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="terminal-webapp.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <script src="jquery-3.4.1.min.js"></script>
     <script src="terminal-webapp.js"></script>
     <title>Home</title>
@@ -9,8 +11,16 @@
   </head>
   <body id="bodyHome">
 
-    <h1>Restaurant Management System</h1>
-    <button id="buttonLoginRedir" onclick="location.href='login.html'">Employee Login</button>
+  <div class="container col-6 border">
+    <div class="border-bottom">
+      <h2>Restaurant Management System</h2>
+      <label class="labels">Please log in to continue...</label>
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary" id="buttonLoginRedir" onclick="location.href='login.html'">Employee Login</button>
+    </div>
+  </div>
 
   </body>
 </html>
