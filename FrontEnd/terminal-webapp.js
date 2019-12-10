@@ -136,12 +136,14 @@ $(document).ready(function() {
     });
   });
 
+  // cancel add food item and return to employee home page
   $('#buttonCancelAddItem').click(function () {
     var urlParams = new URLSearchParams(window.location.search);
     var tableID = urlParams.get('tableID');
     window.location.replace("edit-order.html?tableID=" + tableID);
   });
 
+  // submit order
   $('#buttonSubmitOrder').click(function () {
     var orderID = $('#orderID').val();
     $.ajax({
@@ -159,6 +161,26 @@ $(document).ready(function() {
     });
   });
 
+  // when select-table-order.html is loaded, fetch the tables and display status and buttons
+  if($('body').attr('id') == 'bodySelectTableOrder') {
+    console.log('Fetching tables...');
+    $.getJSON(URL+"floorStatus", function(result) {
+      $.each(result, function(i, field) {
+        if(field.status == "Occupied") {
+          $('#bodySelectTableOrder').append("<button class=\"buttonTableOrder\" id=\"buttonTableOrder"+(i+1)+"\" value="+field.status+">Table "
+              +(i+1)+"</button>\n");
+          $('#buttonTableOrder' + (i+1)).css('background-color', '#00a61f');
+        }
+      });
+    });
+  }
 
+  // user selects which table to edit order of
+  $(document).on('click', '.buttonTableOrder', function() {
+    if($(this).val() == "Occupied") {
+      var editTableID = $(this).attr('id').substring(16); // "buttonTableOrder" is 11 char long
+      window.location.replace("edit-order.html?tableID=" + editTableID);
+    }
+  });
 
 });
