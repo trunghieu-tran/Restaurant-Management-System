@@ -105,6 +105,12 @@ public class ServiceController {
         return OrderController.getInstance().getOrderForTable(id);
     }
 
+    // http://localhost:8080/item?item={item}
+    @RequestMapping("/item")
+    public Item itemPrice(@RequestParam String item) {
+        return MenuController.getInstance().getMenu().getItemByID(item);
+    }
+
     // http://localhost:8080/addItemToOrder?orderID={order}&item={item}
     @RequestMapping("/addItemToOrder")
     public boolean addItemToOrder(@RequestParam int orderID, String item) {
@@ -115,7 +121,7 @@ public class ServiceController {
     @RequestMapping("/submitOrder")
     public boolean submitOrder(@RequestParam int orderID) throws IOException {
         if (OrderController.getInstance().submitOrder(orderID)) {
-            orderQueueUpdated();
+            //orderQueueUpdated();
             return true;
         }
         return false;

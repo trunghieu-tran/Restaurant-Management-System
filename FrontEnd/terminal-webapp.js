@@ -20,16 +20,16 @@ $(document).ready(function() {
 
   if($('body').attr('id') == 'bodyEditOrder') {
     console.log('Creating edit form...');
-    var query = window.location.search.substring(1);
-    // stupid way of finding what comes after tableID=
-    var editTableID = query.substring(query.indexOf('tableID=')+('tableID=').length)
+    var urlParams = new URLSearchParams(window.location.search);
+    var editTableID = urlParams.get('tableID');
+    var newItems = urlParams.get('newItems').split("%");
     $('#orderTitle').append(editTableID);
     // display information
     $.getJSON(URL+"tableOrder?id="+editTableID, function(result) {
+      var total = result.payment;
       console.log(result.orderID);
       $('#orderID').val(result.orderID);
       $('#placedTime').val(result.placed);
-      $('#total').val(result.payment+'$');
       if(result.ready) {
         $('#orderStatus').val('Ready');
       } else {
@@ -38,6 +38,25 @@ $(document).ready(function() {
       $.each(result.orderedItems, function(i, field) {
         $('#item-list').append("<button class='btn btn-warning'>"+field.description + " $" + field.price + "</button>");
       });
+      if(newItems[0] != "") {
+        for(var i = 0; i < newItems.length; i++) {
+          $.ajax({
+            type: "GET",
+            url: URL + "item?item=" + newItems[i],
+            success: function(result) {
+              total += result.price;
+              console.log(total);
+              $('#item-list').append("<button class='btn btn-warning' style='background-color:#00be2a'>"+ result.description + " $" + result.price + "</button>");
+            },
+            error: function(e) {
+              console.log("ERROR: " + e);
+            },
+            async: false
+          });
+        }
+      }
+      $('#total').val(total+'$');
+
     });
   }
 
@@ -64,7 +83,7 @@ $(document).ready(function() {
   $(document).on('click', '.buttonTable', function() {
     if($(this).val() == "Available") {
       var editTableID = $(this).attr('id').substring(11); // "buttonTable" is 11 char long
-      window.location.replace("edit-order.html?tableID=" + editTableID);
+      window.location.replace("edit-order.html?tableID=" + editTableID + "&newItems=");
     }
   });
 
@@ -73,7 +92,8 @@ $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var tableID = urlParams.get('tableID');
     var orderID = $('#orderID').val();
-    window.location.replace("add-item.html?tableID=" + tableID +"&orderID=" + orderID);
+    var newItems = urlParams.get('newItems');
+    window.location.replace("add-item.html?tableID=" + tableID +"&orderID=" + orderID + "&newItems=" + newItems);
   });
 
   // load food items
@@ -104,33 +124,49 @@ $(document).ready(function() {
   $(document).on('click', '.food-item', function() {
     var urlParams = new URLSearchParams(window.location.search);
     var tableID = urlParams.get('tableID');
-    var urlParams = new URLSearchParams(window.location.search);
     var orderID = urlParams.get('orderID');
-    $.ajax({
-      type: "GET",
-      url: URL + "addItemToOrder?orderID=" + orderID + "&item=" + $(this).val(),
-      success: function(result) {
-        console.log('food item adding result:' + result);
-        if(result === true) {
-          window.location.replace("edit-order.html?tableID=" + tableID);
-        }
-      },
-      error: function(e) {
-        console.log("ERROR: " + e);
-      }
-    });
+    var newItems = urlParams.get('newItems').split("%");
+    if(newItems[0] == "")
+      newItems[0] = $(this).val();
+    else
+      newItems.push($(this).val());
+    console.log(newItems);
+    window.location.replace("edit-order.html?tableID=" + tableID + "&newItems=" + newItems.join("%"));
+
   });
 
   // cancel add food item and return to employee home page
   $('#buttonCancelAddItem').click(function () {
     var urlParams = new URLSearchParams(window.location.search);
     var tableID = urlParams.get('tableID');
-    window.location.replace("edit-order.html?tableID=" + tableID);
+    var newItems = urlParams.get('newItems')
+    window.location.replace("edit-order.html?tableID=" + tableID + "&newItems=" + newItems);
   });
 
   // submit order
   $('#buttonSubmitOrder').click(function () {
     var orderID = $('#orderID').val();
+    var urlParams = new URLSearchParams(window.location.search);
+    var tableID = urlParams.get('tableID');
+    var newItems = urlParams.get('newItems').split("%");
+
+    for(var i = 0; i < newItems.length; i++) {
+      $.ajax({
+        type: "GET",
+        url: URL + "addItemToOrder?orderID=" + orderID + "&item=" + newItems[i],
+        success: function(result) {
+          console.log('food item adding result:' + result);
+          if(result === true) {
+            //window.location.replace("edit-order.html?tableID=" + tableID);
+          }
+        },
+        error: function(e) {
+          console.log("ERROR: " + e);
+        },
+        async: false
+      });
+    }
+
     $.ajax({
       type: "GET",
       url: URL + "submitOrder?orderID=" + orderID,
@@ -164,7 +200,7 @@ $(document).ready(function() {
   $(document).on('click', '.buttonTableOrder', function() {
     if($(this).val() == "Occupied") {
       var editTableID = $(this).attr('id').substring(16); // "buttonTableOrder" is 11 char long
-      window.location.replace("edit-order.html?tableID=" + editTableID);
+      window.location.replace("edit-order.html?tableID=" + editTableID + "&newItems=");
     }
   });
 
@@ -188,12 +224,9 @@ $(document).ready(function() {
           window.location.replace("employee-home.html");
           return true;
         }
-        if(!$('#invalidMsg').length) {
-          $('form').append("<p id=\"invalidMsg\" style=\"text-align: center; color: red; background-color: yellow;\">Invalid credentials!</p>");
-          //$('#invalidMsg').effect("highlight", {}, 5000);
-        } else {
-
-        }
+        if(!$('#invalidMsg').length)
+          $('form').append("<p id=\"invalidMsg\" style=\"text-align: center; color: red;\">Invalid credentials!</p>");
+        $('#invalidMsg').fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
       },
       error: function(e) {
         console.log("ERROR: " + e);
