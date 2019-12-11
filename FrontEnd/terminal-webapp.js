@@ -51,20 +51,7 @@ $(document).ready(function() {
 
   // check user's credentials when they click login
   $('#buttonLogin').click(function() {
-    console.log("Validating user... ");
-    $.ajax({
-      type: "GET",
-      url: URL + "login?id=" + $('#username').val() + "&pwd=" + $('#password').val(),
-      success: function(result) {
-        console.log(result);
-        if(result == "Login successful!") {
-          window.location.replace("employee-home.html");
-        }
-      },
-      error: function(e) {
-        console.log("ERROR: " + e);
-      }
-    });
+    login();
   });
 
   // cancel login brings user back to home page
@@ -181,4 +168,36 @@ $(document).ready(function() {
     }
   });
 
+  // when user presses enter on login page
+  // (taken from stack overflow of course)
+  $('#password, #username').on("keypress", function(e) {
+    if(e.keyCode == 13) {
+      login();
+      return false; // prevent the button click from happening
+    }
+});
+
+  function login() {
+    console.log("Validating user... ");
+    $.ajax({
+      type: "GET",
+      url: URL + "login?id=" + $('#username').val() + "&pwd=" + $('#password').val(),
+      success: function(result) {
+        console.log(result);
+        if(result == "Login successful!") {
+          window.location.replace("employee-home.html");
+          return true;
+        }
+        if(!$('#invalidMsg').length) {
+          $('form').append("<p id=\"invalidMsg\" style=\"text-align: center; color: red; background-color: yellow;\">Invalid credentials!</p>");
+          //$('#invalidMsg').effect("highlight", {}, 5000);
+        } else {
+
+        }
+      },
+      error: function(e) {
+        console.log("ERROR: " + e);
+      }
+    });
+  }
 });
